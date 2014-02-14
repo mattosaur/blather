@@ -67,24 +67,30 @@ describe "UserPages" do
 =end
   end
 
-  # Again, not sure why these tests aren't working. Manual testing shows that the
-  # the functionality is working as expected.
+  # These aren't working because the sign_in method in the utilities.rb isn't working.
 
 =begin
   describe "index" do
-    before do
-      sign_in FactoryGirl.create(:user)
-      FactoryGirl.create(:user, name: "Bob", email: "bob@example.com")
-      FactoryGirl.create(:user, name: "Ben", email: "ben@example.com")
+    let(:user) { FactoryGirl.create(:user) }
+    before(:each) do
+      sign_in user
       visit users_path
     end
 
     it { should have_title('All users') }
     it { should have_content('All users') }
 
-    it "should list each user" do
-      User.all.each do  |user|
-        expect(page).to have_selector('li', text: user.name)
+    describe "pagination" do
+
+      before(:all) { 30.times { FactoryGirl.create(:user) } }
+      after(:all)  { User.delete_all }
+
+      it { should have_selector('div.pagination') }
+
+      it "should list each user" do
+        User.paginate(page: 1).each do |user|
+          expect(page).to have_selector('li', text: user.name)
+        end
       end
     end
   end
