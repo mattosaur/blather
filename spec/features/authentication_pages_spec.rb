@@ -29,12 +29,16 @@ describe "Authentication" do
    	it { should have_title(user.name) }
    	it { should have_link('Profile',     href: user_path(user)) }
     it { should have_link('Users',       href: users_path) }
-    # it { should have_link('Settings',    href: edit_user_path(user)) }
+    it { should have_link('Settings',    href: edit_user_path(user)) }
    	it { should have_link('Sign out',    href: signout_path) }
    	it { should_not have_link('Sign in', href: signin_path) }
 
+      # This test is for "Authentication with valid information after saving the user"
+      # Which should test to see that after a valid sign in the user is
+      # redirected to another page, with a "Welcome" in the flash.
 
-     describe "after saving the user" do
+      # Since it doesn't work as is, I plan on rewriting it.
+      describe "after saving the user" do
         before { click_button submit }
         let(:user) { User.find_by(email: 'user@example.com') }
 
@@ -95,7 +99,7 @@ describe "Authentication" do
 
 
       describe "in the Users controller" do 
-
+=begin
         describe "visiting the following page" do
           before { visit following_user_path(user) }
           it { should have_title('Sign in') }
@@ -105,7 +109,7 @@ describe "Authentication" do
           before { visit followers_user_path(user) }
           it { should have_title('Sign in') }
         end
-
+=end
         describe "visiting the edit page" do
           before { visit edit_user_path(user) }
           it { should have_title('Sign in') }

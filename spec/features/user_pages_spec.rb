@@ -44,7 +44,7 @@ describe "UserPages" do
     describe "follow/unfollow buttons" do
       let(:other_user) { FactoryGirl.create(:user) }
       before { sign_in user }
-
+=begin
       describe "following a user" do
         before { visit user_path(other_user) }
 
@@ -89,6 +89,7 @@ describe "UserPages" do
           it { should have_xpath("//input[@value='Follow']") }
         end
       end
+=end
     end
   end
 
